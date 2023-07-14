@@ -11,12 +11,11 @@ const Form = () => {
       ...submittedData
     }));
   }
-  // console.log(calcData);
   return(
     <div className="form-display">
       <FormInput onSubmitCalculator={calculatorSubmitHandler} />
       {calcData ? 
-        <Results />
+        <Results data={calcData} />
         : <p className="no-data">No data found yet.</p>
       }
     </div>

@@ -4,7 +4,7 @@ const FormInput = (props) => {
   const[saving, setSaving] = useState('');
   const[contribution, setContribution] = useState('');
   const[yearlyReturn, setYearlyReturn] = useState('');
-  const[druation, setDuration] = useState('');
+  const[totalDuration, setTotalDuration] = useState('');
   const[error, setError] = useState(false);
 
   const savingInputHandler = (event) => {
@@ -16,8 +16,17 @@ const FormInput = (props) => {
   const yearlyReturnInputHandler = (event) => {
     setYearlyReturn(event.target.value);
   }
-  const druationInputHandler = (event) => {
-    setDuration(event.target.value);
+  const durationInputHandler = (event) => {
+    setTotalDuration(event.target.value);
+  }
+
+  const resetHandler = (event) => {
+    event.preventDefault();
+    setError(false);
+    setSaving('');
+    setContribution('');
+    setYearlyReturn('');
+    setTotalDuration('');
   }
   const calculateHandler = (userInput) => {
     userInput.preventDefault();
@@ -26,8 +35,8 @@ const FormInput = (props) => {
     let currentSavings = +saving;
     const yearlyContribution = +contribution;
     const expectedReturn = +yearlyReturn / 100;
-    const duration = +druation;
-    if(saving === '' || contribution === '' ||  yearlyReturn === '' || duration === '') {
+    const duration = +totalDuration;
+    if(saving === '' || contribution === '' ||  yearlyReturn === '' || totalDuration === '') {
       setError(true);
       return;
     }
@@ -46,15 +55,15 @@ const FormInput = (props) => {
     props.onSubmitCalculator(yearlyData);
   };
   return(
-    <form className={`form ${error ? 'invalid' : ''}`} onSubmit={calculateHandler}>
+    <form className={`form ${error === true ? 'invalid' : ''}`} onSubmit={calculateHandler}>
       <div className="input-group">
         <p>
           <label htmlFor="current-savings">Current Savings ($)</label>
-          <input type="number" onChange={savingInputHandler} id="current-savings" />
+          <input type="number" value={saving} onChange={savingInputHandler} id="current-savings" />
         </p>
         <p>
           <label htmlFor="yearly-contribution">Yearly Savings ($)</label>
-          <input type="number" onChange={contributionInputHandler} id="yearly-contribution" />
+          <input type="number" value={contribution} onChange={contributionInputHandler} id="yearly-contribution" />
         </p>
       </div>
       <div className="input-group">
@@ -62,15 +71,15 @@ const FormInput = (props) => {
           <label htmlFor="expected-return">
             Expected Interest (%, per year)
           </label>
-          <input type="number" onChange={yearlyReturnInputHandler} id="expected-return" />
+          <input type="number" value={yearlyReturn} onChange={yearlyReturnInputHandler} id="expected-return" />
         </p>
         <p>
           <label htmlFor="duration">Investment Duration (years)</label>
-          <input type="number" onChange={druationInputHandler} id="duration" />
+          <input type="number" value={totalDuration} onChange={durationInputHandler} id="duration" />
         </p>
       </div>
       <p className="actions">
-        <button type="reset" className="buttonAlt">
+        <button onClick={resetHandler} className="buttonAlt">
           Reset
         </button>
         <button type="submit" className="button">

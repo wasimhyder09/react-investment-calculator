@@ -1,6 +1,5 @@
-const Results = () => {
-  {/* Show fallback text if no data is available */}
-
+const Results = (props) => {
+  console.log(props.data);
   return(
     <table className="result">
       <thead>
